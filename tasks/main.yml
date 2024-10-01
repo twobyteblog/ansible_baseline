@@ -1,0 +1,55 @@
+---
+# tasks file for ansible_baseline
+
+# Install all requested baseline packages.
+  
+- name: Install baseline packages.
+  apt: 
+    name: "{{ packages }}"
+    state: latest
+
+# Set default text editor.
+
+- name: Set default text editor.
+  alternatives:
+    name: editor
+    path: "{{ default_editor }}"
+
+# Configure time keeping settings.
+
+- name: Configure timezone.
+  community.general.timezone:
+    name: "{{ timezone }}"
+
+- name: Installing Chrony for timekeeping.
+  apt:
+    name: chrony
+    state: latest
+
+## Configure a baseline firewall settings.
+
+- name: Install UFW package.
+  apt:
+    name: ufw
+    state: latest
+
+- name: Allow outbound communications.
+  community.general.ufw:
+    state: enabled
+    direction: outgoing
+    policy: allow
+
+- name: Deny inbound communications.
+  community.general.ufw:
+    state: enabled
+    direction: incoming
+    policy: deny
+
+- name: Allow SSH communications.
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: Enable firewall.
+  community.general.ufw:
+    state: enabled

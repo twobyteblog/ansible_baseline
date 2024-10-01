@@ -1,0 +1,13 @@
+---
+# defaults file for ansible_baseline
+
+# Time keeping.
+timezone: UTC
+ntp_package_name: chrony
+ntp_service_name: chronyd
+
+## Baseline packages installed on all hosts.
+packages: [ sudo, vim, gcc, make, curl, unzip, rsync, iftop, iotop, htop, tcpdump, mtr, git, dnsutils, acl ]
+
+## Default text editor.
+default_editor: /usr/bin/vim.basic
