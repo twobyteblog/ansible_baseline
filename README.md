@@ -1,4 +1,4 @@
-## Ansible Role: Domain Join for Debian Hosts
+## Ansible Role: Baseline Settings for Debian Hosts
 
 This Ansible role automates the process of setting up Debian's basic operating system settings.
 
