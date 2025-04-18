@@ -1,6 +1,26 @@
 ---
 # tasks file for ansible_baseline
 
+# Update host.
+
+- name: Installing all available updates.
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: checking if reboot-required file exists.
+  stat:
+    path: /var/run/reboot-required
+  register: reboot
+
+- name: reboot if required.
+  reboot:
+    reboot_timeout: 1200
+  when: reboot.stat.exists == true
+  become: yes
+
 # Install all requested baseline packages.
   
 - name: Install baseline packages.

@@ -1,38 +1,52 @@
-Role Name
-=========
+## Ansible Role: Domain Join for Debian Hosts
 
-A brief description of the role goes here.
+This Ansible role automates the process of setting up Debian's basic operating system settings.
 
-Requirements
-------------
+## Actions Performed
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The role performs the following actions:
 
-Role Variables
---------------
+1. Update operating system.
+2. Install preferred tools and utilities.
+3. Set default text editor.
+4. Set timezone.
+5. Configure timekeeping.
+6. Configure firewall.
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## Setup Instructions
 
-Dependencies
-------------
+### Clone Repository
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Clone the project into the roles directory of your Ansible Controller.
 
-Example Playbook
-----------------
+```bash
+git clone https://github.com/twobyteblog/ansible_baseline.git
+```
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+### Variables
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+Within ```vars/main.yml``` fill in the following variables.
 
-License
--------
+```bash
+# Time keeping.
+timezone: UTC
+ntp_package_name: chrony
+ntp_service_name: chronyd
 
-BSD
+## Baseline packages installed on all hosts.
+packages: [ sudo, vim, gcc, make, curl, unzip, rsync, iftop, iotop, htop, tcpdump, mtr, git, dnsutils, acl ]
 
-Author Information
-------------------
+## Default text editor.
+default_editor: /usr/bin/vim.basic
+```
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+### Playbook
+
+Create a playbook which runs this role. This role requires become privileges.
+
+```
+- hosts: all
+  roles:
+    - role: ansible_baseline
+      become: yes
+```
